@@ -1,0 +1,21 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/buster64"
+
+  config.vm.provision "shell", inline: <<-SHELL
+    # Update package lists
+    apt-get update
+
+    # Install Puppet
+    apt-get install -y puppet
+    
+    # Configure Puppet
+    puppet config set server your_puppet_master
+
+    # Attempt to set the actual hostname or IP address of your Puppet master server.
+    puppet config set certname your_node_name
+
+    # Run Puppet
+    puppet agent -t 
+
+  SHELL
+end
